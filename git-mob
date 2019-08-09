@@ -33,3 +33,9 @@ solo () {
     rm "${TEMPLATE}"
     git config --local --unset commit.template
 }
+
+del_co_author () {
+    PATTERN="del(.coauthors.${1})"
+    jq $PATTERN "${COAUTHORS}" > /tmp/git-coauthors
+    mv /tmp/git-coauthors "${COAUTHORS}"
+}
