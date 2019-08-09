@@ -53,3 +53,8 @@ del_co_author () {
 mv_tmp_coauthors () {
     mv "${TMP_COAUTHORS}" "${COAUTHORS}"
 }
+
+show () {
+    echo "Author: $(git config user.name) <$(git config user.email)>"
+    sed '/^[[:space:]]*$/d' "${TEMPLATE}"
+}
