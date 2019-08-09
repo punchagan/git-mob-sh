@@ -57,9 +57,14 @@ add_co_author () {
     id=$1
     name=$2
     email=$3
-    echo "{\"coauthors\": {\"$id\": {\"name\": \"$name\", \"email\": \"$email\"}}}" > /tmp/git-mob-$id-author.json
-    jq --argfile author /tmp/git-mob-$id-author.json '. * $author' "${COAUTHORS}" > "${TMP_COAUTHORS}"
-    mv_tmp_coauthors
+    AUTHOR_FILE=/tmp/git-mob-$id-author.json
+    echo "{\"coauthors\": {\"$id\": {\"name\": \"$name\", \"email\": \"$email\"}}}" > "${AUTHOR_FILE}"
+    if [ -f "${COAUTHORS}" ]; then
+        jq --argfile author "${AUTHOR_FILE}"  '. * $author' "${COAUTHORS}" > "${TMP_COAUTHORS}"
+        mv_tmp_coauthors
+    else
+        mv "${AUTHOR_FILE}" "${COAUTHORS}"
+    fi
 }
 
 delete_co_author () {
