@@ -39,8 +39,8 @@ set_current_author () {
 }
 
 unset_current_author () {
-    git config --local --unset user.email
-    git config --local --unset user.name
+    git config --local --unset user.email || true;
+    git config --local --unset user.name || true;
 }
 
 enable () {
