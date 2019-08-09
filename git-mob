@@ -6,7 +6,7 @@ COAUTHORS=~/.git-coauthors
 TEMPLATE=~/.gitmessage
 
 list () {
-    cat "${COAUTHORS}" | jq -r '.coauthors | to_entries | .[] | [.key, .value.name, .value.email] | @tsv'
+    cat "${COAUTHORS}" | jq -r '.coauthors | to_entries | .[] | "\(.key): \(.value.name) <\(.value.email)>"'
 }
 
 get_co_authors () {
