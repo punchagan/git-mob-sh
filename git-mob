@@ -70,7 +70,9 @@ mv_tmp_coauthors () {
 
 show () {
     echo "Author: $(git config user.name) <$(git config user.email)>"
-    sed '/^[[:space:]]*$/d' "${TEMPLATE}"
+    if [ -f "${TEMPLATE}" ]; then
+        sed '/^[[:space:]]*$/d' "${TEMPLATE}"
+    fi
 }
 
 
