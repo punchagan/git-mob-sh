@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+
+mob_list () {
+    cat ~/.git-coauthors | jq -r '.coauthors | to_entries | .[] | [.key, .value.name, .value.email] | @tsv'
+}

@@ -4,3 +4,5 @@ Git subcommand that makes mob programming workflows easier
 
 Inspired by [git-mob](https://www.npmjs.com/package/git-mob) but written as
 simple shell scripts.
+
+It uses `jq` to manipulate the `~/.git-coauthors` file.
