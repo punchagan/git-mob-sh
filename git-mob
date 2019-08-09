@@ -11,8 +11,12 @@ list () {
 }
 
 choose_co_authors () {
+    current_email=$(git config user.email)
     for each in $@; do
-        jq -r '.coauthors' "${COAUTHORS}" | jq -r ".${each}"| jq -r '"Co-authored-by: \(.name) <\(.email)>"'
+        if [ $current_email = $(jq -r ".coauthors.${each}.email" "${COAUTHORS}") ]; then
+            continue
+        fi
+        jq -r ".coauthors.${each}" "${COAUTHORS}" | jq -r '"Co-authored-by: \(.name) <\(.email)>"'
     done
 }
 
