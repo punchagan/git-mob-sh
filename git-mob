@@ -4,6 +4,7 @@ IFS=$'\n\t'
 
 COAUTHORS=~/.git-coauthors
 TEMPLATE=~/.gitmessage
+TMP_COAUTHORS=/tmp/git-coauthors
 
 list () {
     jq -r '.coauthors | to_entries | .[] | "\(.key): \(.value.name) <\(.value.email)>"' "${COAUTHORS}"
@@ -34,8 +35,21 @@ solo () {
     git config --local --unset commit.template
 }
 
+add_co_author () {
+    id=$1
+    name=$2
+    email=$3
+    echo "{\"coauthors\": {\"$id\": {\"name\": \"$name\", \"email\": \"$email\"}}}" > /tmp/git-mob-$1-author.json
+    jq --argfile author /tmp/git-mob-pc-author.json '. * $author' ~/.git-coauthors > "${TMP_COAUTHORS}"
+    mv_tmp_coauthors
+}
+
 del_co_author () {
     PATTERN="del(.coauthors.${1})"
-    jq $PATTERN "${COAUTHORS}" > /tmp/git-coauthors
-    mv /tmp/git-coauthors "${COAUTHORS}"
+    jq $PATTERN "${COAUTHORS}" > "${TMP_COAUTHORS}"
+    mv_tmp_coauthors
+}
+
+mv_tmp_coauthors () {
+    mv "${TMP_COAUTHORS}" "${COAUTHORS}"
 }
