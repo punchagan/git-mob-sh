@@ -3,7 +3,7 @@ set -euo pipefail
 IFS=$'\n\t'
 
 COAUTHORS=~/.git-coauthors
-TEMPLATE=.git/gitmessage
+TEMPLATE=.git/git-mob-message
 TMP_COAUTHORS=/tmp/git-coauthors
 
 list () {
@@ -49,7 +49,7 @@ enable () {
 }
 
 solo () {
-    rm "${TEMPLATE}"
+    rm -f "${TEMPLATE}"
     git config --local --unset commit.template
 }
 
