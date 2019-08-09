@@ -58,3 +58,7 @@ show () {
     echo "Author: $(git config user.name) <$(git config user.email)>"
     sed '/^[[:space:]]*$/d' "${TEMPLATE}"
 }
+
+if [ 0 -eq $# ]; then
+    show
+fi
