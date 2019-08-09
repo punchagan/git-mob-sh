@@ -79,4 +79,6 @@ case "$subcommand" in
     "delete-co-author")
         shift;
         delete_co_author $@;;
+    "solo")
+        solo;;
 esac
