@@ -7,6 +7,14 @@ simple shell scripts.
 
 It uses `jq` to manipulate the `~/.git-coauthors` file.
 
+# Installation
+
+Ensure that [jq](https://stedolan.github.io/jq/download/) is installed an on
+your `$PATH`.
+
+Download and place the `git-mob` script in your `$PATH`. Somewhere like `~/bin/`
+may work nicely.
+
 # Usage
 
 ## Co authors
