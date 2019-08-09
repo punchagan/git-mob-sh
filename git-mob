@@ -29,6 +29,16 @@ $(choose_co_authors $@)
 EOF
 }
 
+set_current_author () {
+    git config --local user.email $(jq -r ".coauthors.${1}.email" "${COAUTHORS}")
+    git config --local user.name $(jq -r ".coauthors.${1}.name" "${COAUTHORS}")
+}
+
+unset_current_author () {
+    git config --local --unset user.email
+    git config --local --unset user.name
+}
+
 enable () {
     create_template $@
     git config --local commit.template "${TEMPLATE}"
@@ -84,5 +94,15 @@ case "$subcommand" in
         shift;
         delete_co_author $@;;
     "solo")
+        unset_current_author;
         solo;;
+    *)
+        if [ "${subcommand}" = "-o" ]; then
+            set_current_author $2;
+            shift;
+            shift;
+        else
+            unset_current_author;
+        fi
+        enable $@;;
 esac
