@@ -3,7 +3,7 @@ set -euo pipefail
 IFS=$'\n\t'
 
 COAUTHORS=~/.git-coauthors
-TEMPLATE=~/.gitmessage
+TEMPLATE=.git/gitmessage
 TMP_COAUTHORS=/tmp/git-coauthors
 
 list () {
