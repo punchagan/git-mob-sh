@@ -59,6 +59,18 @@ show () {
     sed '/^[[:space:]]*$/d' "${TEMPLATE}"
 }
 
+
+# Argument parsing
+
 if [ 0 -eq $# ]; then
     show
+    exit 0;
 fi
+
+subcommand=$1
+case "$subcommand" in
+    "list")
+        list;;
+    "show")
+        show;;
+esac
