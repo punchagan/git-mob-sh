@@ -17,7 +17,15 @@ list () {
 choose_co_authors () {
     current_email=$(git config user.email)
     for each in $@; do
-        if [ $current_email = $(jq -r ".coauthors.${each}.email" "${COAUTHORS}") ]; then
+        email=$(jq -r ".coauthors.${each}.email" "${COAUTHORS}")
+        if [ $email = null ]; then
+            {
+                echo "No co-author '${each}' defined"
+                echo "Check ${COAUTHORS}"
+            } >&2
+            exit 1
+        fi
+        if [ $current_email = $email ]; then
             continue
         fi
         jq -r ".coauthors.${each}" "${COAUTHORS}" | jq -r '"Co-authored-by: \(.name) <\(.email)>"'
