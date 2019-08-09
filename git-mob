@@ -7,7 +7,11 @@ TEMPLATE=.git/gitmessage
 TMP_COAUTHORS=/tmp/git-coauthors
 
 list () {
-    jq -r '.coauthors | to_entries | .[] | "\(.key): \(.value.name) <\(.value.email)>"' "${COAUTHORS}"
+    if [ ! -f "${COAUTHORS}" ]; then
+        echo "No co-authors defined. Use $0 add-co-author to add new co-authors."
+    else
+        jq -r '.coauthors | to_entries | .[] | "\(.key): \(.value.name) <\(.value.email)>"' "${COAUTHORS}"
+    fi
 }
 
 choose_co_authors () {
