@@ -44,7 +44,7 @@ add_co_author () {
     mv_tmp_coauthors
 }
 
-del_co_author () {
+delete_co_author () {
     PATTERN="del(.coauthors.${1})"
     jq $PATTERN "${COAUTHORS}" > "${TMP_COAUTHORS}"
     mv_tmp_coauthors
@@ -73,4 +73,10 @@ case "$subcommand" in
         list;;
     "show")
         show;;
+    "add-co-author")
+        shift;
+        add_co_author $@;;
+    "delete-co-author")
+        shift;
+        delete_co_author $@;;
 esac
