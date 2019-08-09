@@ -39,8 +39,8 @@ add_co_author () {
     id=$1
     name=$2
     email=$3
-    echo "{\"coauthors\": {\"$id\": {\"name\": \"$name\", \"email\": \"$email\"}}}" > /tmp/git-mob-$1-author.json
-    jq --argfile author /tmp/git-mob-pc-author.json '. * $author' ~/.git-coauthors > "${TMP_COAUTHORS}"
+    echo "{\"coauthors\": {\"$id\": {\"name\": \"$name\", \"email\": \"$email\"}}}" > /tmp/git-mob-$id-author.json
+    jq --argfile author /tmp/git-mob-$id-author.json '. * $author' "${COAUTHORS}" > "${TMP_COAUTHORS}"
     mv_tmp_coauthors
 }
 
