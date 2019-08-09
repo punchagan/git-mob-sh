@@ -9,8 +9,10 @@ list () {
     cat "${COAUTHORS}" | jq -r '.coauthors | to_entries | .[] | "\(.key): \(.value.name) <\(.value.email)>"'
 }
 
-get_co_authors () {
-    cat "${COAUTHORS}" | jq -r '.coauthors | to_entries | .[] | "Co-authored-by: \(.value.name) <\(.value.email)>"'
+choose_co_authors () {
+    for each in $@; do
+        cat "${COAUTHORS}" | jq -r '.coauthors' | jq -r ".${each}"| jq -r '"Co-authored-by: \(.name) <\(.email)>"'
+    done
 }
 
 create_template () {
@@ -18,12 +20,12 @@ create_template () {
     cat <<EOF > ${TEMPLATE}
 
 
-$(get_co_authors)
+$(choose_co_authors $@)
 EOF
 }
 
 enable () {
-    create_template
+    create_template $@
     git config --local commit.template "${TEMPLATE}"
 }
 
