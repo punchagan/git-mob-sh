@@ -14,17 +14,21 @@ list () {
     fi
 }
 
+validate_email () {
+    email=$(jq -r ".coauthors.$1.email" "${COAUTHORS}")
+    if [ $email = null ]; then
+        {
+            echo "No co-author '$1' defined"
+            echo "Check ${COAUTHORS}"
+        } >&2
+        exit 1
+    fi
+}
+
 choose_co_authors () {
     current_email=$(git config user.email)
     for each in $@; do
-        email=$(jq -r ".coauthors.${each}.email" "${COAUTHORS}")
-        if [ $email = null ]; then
-            {
-                echo "No co-author '${each}' defined"
-                echo "Check ${COAUTHORS}"
-            } >&2
-            exit 1
-        fi
+        validate_email $each
         if [ $current_email = $email ]; then
             continue
         fi
@@ -42,6 +46,7 @@ EOF
 }
 
 set_current_author () {
+    validate_email $1
     git config --local user.email $(jq -r ".coauthors.${1}.email" "${COAUTHORS}")
     git config --local user.name $(jq -r ".coauthors.${1}.name" "${COAUTHORS}")
 }
